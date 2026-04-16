@@ -4,3 +4,8 @@ DerivedData/
 Products/
 xcuserdata/
 *.xcuserstate
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+.build/
+.swiftpm/
