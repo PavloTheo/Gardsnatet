@@ -1,4 +1,4 @@
-# GardsNatetProtoTest
+# Gardsnatet
 
 SwiftUI prototype for a Swedish farm-to-consumer marketplace focused on small-scale wine, beer, cider, and mead producers.
 
@@ -64,15 +64,15 @@ This prototype is centered on:
 
 ## Running The Project
 
-1. Open `GardsNatetProtoTest.xcodeproj` in Xcode.
+1. Open `Gardsnatet.xcodeproj` in Xcode.
 2. Select an iPhone simulator.
-3. Build and run the `GardsNatetProtoTest` scheme.
+3. Build and run the `Gardsnatet` scheme.
 
 The app currently uses mock data only. No backend setup is required.
 
 ## Testing
 
-- Unit tests live in `GardsNatetProtoTestTests`
+- Unit tests live in `GardsnatetTests`
 - The current test coverage is intentionally light and focused on view model filtering logic
 
 ## Roadmap

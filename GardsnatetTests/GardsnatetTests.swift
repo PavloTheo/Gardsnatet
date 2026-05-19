@@ -1,15 +1,15 @@
 //
-//  GardsNatetProtoTestTests.swift
-//  GardsNatetProtoTestTests
+//  GardsnatetTests.swift
+//  GardsnatetTests
 //
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
 import Foundation
 import Testing
-@testable import GardsNatetProtoTest
+@testable import Gardsnatet
 
-struct GardsNatetProtoTestTests {
+struct GardsnatetTests {
     @MainActor
     @Test func discoverViewModelLoadsAndFiltersByCategoryAndSearch() async throws {
         let viewModel = DiscoverViewModel(producerService: ProducerServiceStub())

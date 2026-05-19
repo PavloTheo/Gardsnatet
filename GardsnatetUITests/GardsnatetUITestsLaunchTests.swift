@@ -1,13 +1,13 @@
 //
-//  GardsNatetProtoTestUITestsLaunchTests.swift
-//  GardsNatetProtoTestUITests
+//  GardsnatetUITestsLaunchTests.swift
+//  GardsnatetUITests
 //
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
 import XCTest
 
-final class GardsNatetProtoTestUITestsLaunchTests: XCTestCase {
+final class GardsnatetUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
