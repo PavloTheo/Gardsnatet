@@ -5,6 +5,7 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 @main
@@ -15,5 +16,6 @@ struct GardsnatetApp: App {
         WindowGroup {
             ContentView(environment: environment)
         }
+        .modelContainer(for: FavoriteProducer.self)
     }
 }
