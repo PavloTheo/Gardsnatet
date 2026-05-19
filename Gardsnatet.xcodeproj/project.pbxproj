@@ -25,6 +25,7 @@
 		3E6B489C2F8E7C0C00D6FD2B /* ProducerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B489A2F8E7C0C00D6FD2B /* ProducerDetailView.swift */; };
 		3E6B489D2F8E7C0C00D6FD2B /* ProducerDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B489B2F8E7C0C00D6FD2B /* ProducerDetailViewModel.swift */; };
 		3E6B48AA2F8E9DC900D6FD2B /* SellerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48A92F8E9DC900D6FD2B /* SellerDashboardView.swift */; };
+		3E9A38E42FBC92A2007590D1 /* FavoriteProducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A38E32FBC92A2007590D1 /* FavoriteProducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		3E903CE92DD5F4AC0097BF9B /* Gardsnatet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gardsnatet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E903CF92DD5F4AD0097BF9B /* GardsnatetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GardsnatetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E903D032DD5F4AD0097BF9B /* GardsnatetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GardsnatetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E9A38E32FBC92A2007590D1 /* FavoriteProducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -127,6 +129,7 @@
 				3E6B48A12F8E9BA700D6FD2B /* Models */,
 				3E6B48A22F8E9BA700D6FD2B /* Services */,
 				3E6B48A32F8E9BA700D6FD2B /* Support */,
+				3E9A38E22FBC929E007590D1 /* Persistence */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -235,6 +238,14 @@
 				3E903D032DD5F4AD0097BF9B /* GardsnatetUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3E9A38E22FBC929E007590D1 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				3E9A38E32FBC92A2007590D1 /* FavoriteProducer.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -390,6 +401,7 @@
 				3E6B48932F8E382400D6FD2B /* MapViewModel.swift in Sources */,
 				3E6B48942F8E382400D6FD2B /* MarketplaceModels.swift in Sources */,
 				3E6B48992F8E428700D6FD2B /* LoadState.swift in Sources */,
+				3E9A38E42FBC92A2007590D1 /* FavoriteProducer.swift in Sources */,
 				3E6B48952F8E382400D6FD2B /* MarketplaceServices.swift in Sources */,
 				3E6B48962F8E382400D6FD2B /* OrdersViewModel.swift in Sources */,
 				3E6B48972F8E382400D6FD2B /* ProfileViewModel.swift in Sources */,
