@@ -26,6 +26,7 @@
 		3E6B489D2F8E7C0C00D6FD2B /* ProducerDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B489B2F8E7C0C00D6FD2B /* ProducerDetailViewModel.swift */; };
 		3E6B48AA2F8E9DC900D6FD2B /* SellerDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48A92F8E9DC900D6FD2B /* SellerDashboardView.swift */; };
 		3E9A38E42FBC92A2007590D1 /* FavoriteProducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A38E32FBC92A2007590D1 /* FavoriteProducer.swift */; };
+		3E9A38E62FBCA656007590D1 /* FavoriteProducerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9A38E52FBCA656007590D1 /* FavoriteProducerService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		3E903CF92DD5F4AD0097BF9B /* GardsnatetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GardsnatetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E903D032DD5F4AD0097BF9B /* GardsnatetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GardsnatetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9A38E32FBC92A2007590D1 /* FavoriteProducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducer.swift; sourceTree = "<group>"; };
+		3E9A38E52FBCA656007590D1 /* FavoriteProducerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteProducerService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				3E6B488E2F8E382400D6FD2B /* MarketplaceServices.swift */,
+				3E9A38E52FBCA656007590D1 /* FavoriteProducerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E6B489C2F8E7C0C00D6FD2B /* ProducerDetailView.swift in Sources */,
+				3E9A38E62FBCA656007590D1 /* FavoriteProducerService.swift in Sources */,
 				3E6B489D2F8E7C0C00D6FD2B /* ProducerDetailViewModel.swift in Sources */,
 				3E6B487D2F8E365500D6FD2B /* ContentView.swift in Sources */,
 				3E6B487E2F8E365500D6FD2B /* DiscoverView.swift in Sources */,
