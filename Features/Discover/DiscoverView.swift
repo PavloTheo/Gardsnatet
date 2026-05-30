@@ -5,13 +5,21 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 struct DiscoverView: View {
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel: DiscoverViewModel
 
-    init(viewModel: DiscoverViewModel) {
+    private let makeFavoriteProducerService: (ModelContext) -> FavoriteProducerServing
+
+    init(
+        viewModel: DiscoverViewModel,
+        makeFavoriteProducerService: @escaping (ModelContext) -> FavoriteProducerServing
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.makeFavoriteProducerService = makeFavoriteProducerService
     }
 
     private var searchTextBinding: Binding<String> {
@@ -111,7 +119,12 @@ struct DiscoverView: View {
             } else {
                 ForEach(viewModel.filteredProducers) { producer in
                     NavigationLink {
-                        ProducerDetailView(viewModel: ProducerDetailViewModel(producer: producer))
+                        ProducerDetailView(
+                            viewModel: ProducerDetailViewModel(
+                                producer: producer,
+                                favoriteProducerService: makeFavoriteProducerService(modelContext)
+                            )
+                        )
                     } label: {
                         producerCard(for: producer)
                     }
@@ -185,5 +198,9 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(viewModel: DiscoverViewModel(producerService: MockProducerService()))
+    DiscoverView(
+        viewModel: DiscoverViewModel(producerService: MockProducerService()),
+        makeFavoriteProducerService: AppEnvironment.preview.makeFavoriteProducerService
+    )
+    .modelContainer(for: FavoriteProducer.self, inMemory: true)
 }

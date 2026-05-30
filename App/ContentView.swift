@@ -18,7 +18,8 @@ struct ContentView: View {
         TabView {
             NavigationStack {
                 DiscoverView(
-                    viewModel: DiscoverViewModel(producerService: environment.producerService)
+                    viewModel: DiscoverViewModel(producerService: environment.producerService),
+                    makeFavoriteProducerService: environment.makeFavoriteProducerService
                 )
             }
             .tabItem {
@@ -27,7 +28,8 @@ struct ContentView: View {
 
             NavigationStack {
                 MapView(
-                    viewModel: MapViewModel(producerService: environment.producerService)
+                    viewModel: MapViewModel(producerService: environment.producerService),
+                    makeFavoriteProducerService: environment.makeFavoriteProducerService
                 )
             }
             .tabItem {

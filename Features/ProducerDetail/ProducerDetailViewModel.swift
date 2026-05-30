@@ -10,9 +10,23 @@ import Foundation
 @MainActor
 final class ProducerDetailViewModel: ObservableObject {
     let producer: Producer
+    @Published private(set) var isFavorite = false
 
-    init(producer: Producer) {
+    private let favoriteProducerService: FavoriteProducerServing
+
+    init(producer: Producer, favoriteProducerService: FavoriteProducerServing) {
         self.producer = producer
+        self.favoriteProducerService = favoriteProducerService
+        loadFavoriteState()
+    }
+
+    func loadFavoriteState() {
+        isFavorite = (try? favoriteProducerService.isFavorite(producerID: producer.id)) ?? false
+    }
+
+    func toggleFavorite() {
+        guard let newFavoriteState = try? favoriteProducerService.toggleFavorite(producerID: producer.id) else { return }
+        isFavorite = newFavoriteState
     }
 
     var inStockProducts: [Product] {
