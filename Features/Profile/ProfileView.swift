@@ -5,6 +5,7 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ProfileView: View {
@@ -51,6 +52,9 @@ struct ProfileView: View {
         .task {
             await viewModel.load()
         }
+        .onAppear {
+            viewModel.refreshFavoriteProducerCount()
+        }
     }
 
     private func accountCard(profile: UserProfile) -> some View {
@@ -64,7 +68,7 @@ struct ProfileView: View {
 
             HStack(spacing: 12) {
                 profileBadge(title: "Default role", value: profile.role.rawValue.capitalized)
-                profileBadge(title: "Favorites", value: "\(profile.favoriteProducerIDs.count)")
+                profileBadge(title: "Favorites", value: "\(viewModel.favoriteProducerCount)")
             }
         }
         .padding(24)
@@ -111,7 +115,7 @@ struct ProfileView: View {
                     .foregroundStyle(.secondary)
 
                 HStack(spacing: 12) {
-                    profileBadge(title: "Saved producers", value: "\(profile.favoriteProducerIDs.count)")
+                    profileBadge(title: "Saved producers", value: "\(viewModel.favoriteProducerCount)")
                     profileBadge(title: "Region", value: profile.region)
                 }
             }
@@ -136,5 +140,19 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(viewModel: ProfileViewModel(profileService: MockProfileService()))
+    ProfilePreview()
+        .modelContainer(for: FavoriteProducer.self, inMemory: true)
+}
+
+private struct ProfilePreview: View {
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        ProfileView(
+            viewModel: ProfileViewModel(
+                profileService: MockProfileService(),
+                favoriteProducerService: AppEnvironment.preview.makeFavoriteProducerService(modelContext)
+            )
+        )
+    }
 }

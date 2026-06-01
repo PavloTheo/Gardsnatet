@@ -55,7 +55,10 @@ struct ContentView: View {
 
             NavigationStack {
                 ProfileView(
-                    viewModel: ProfileViewModel(profileService: environment.profileService)
+                    viewModel: ProfileViewModel(
+                        profileService: environment.profileService,
+                        favoriteProducerService: favoriteProducerService
+                    )
                 )
             }
             .tabItem {
