@@ -5,9 +5,12 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     private let environment: AppEnvironment
 
     init(environment: AppEnvironment = .preview) {
@@ -15,11 +18,16 @@ struct ContentView: View {
     }
 
     var body: some View {
+        let favoriteProducerService = environment.makeFavoriteProducerService(modelContext)
+
         TabView {
             NavigationStack {
                 DiscoverView(
-                    viewModel: DiscoverViewModel(producerService: environment.producerService),
-                    makeFavoriteProducerService: environment.makeFavoriteProducerService
+                    viewModel: DiscoverViewModel(
+                        producerService: environment.producerService,
+                        favoriteProducerService: favoriteProducerService
+                    ),
+                    favoriteProducerService: favoriteProducerService
                 )
             }
             .tabItem {
@@ -59,4 +67,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: FavoriteProducer.self, inMemory: true)
 }

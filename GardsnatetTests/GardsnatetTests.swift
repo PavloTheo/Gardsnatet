@@ -12,7 +12,10 @@ import Testing
 struct GardsnatetTests {
     @MainActor
     @Test func discoverViewModelLoadsAndFiltersByCategoryAndSearch() async throws {
-        let viewModel = DiscoverViewModel(producerService: ProducerServiceStub())
+        let viewModel = DiscoverViewModel(
+            producerService: ProducerServiceStub(),
+            favoriteProducerService: FavoriteProducerServiceStub()
+        )
 
         await viewModel.load()
 
@@ -54,5 +57,23 @@ private struct ProducerServiceStub: ProducerServing {
                 ]
             )
         ]
+    }
+}
+
+private struct FavoriteProducerServiceStub: FavoriteProducerServing {
+    func fetchFavoriteProducerIDs() throws -> Set<UUID> {
+        []
+    }
+
+    func isFavorite(producerID: UUID) throws -> Bool {
+        false
+    }
+
+    func addFavorite(producerID: UUID) throws {}
+
+    func removeFavorite(producerID: UUID) throws {}
+
+    func toggleFavorite(producerID: UUID) throws -> Bool {
+        true
     }
 }
