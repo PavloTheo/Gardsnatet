@@ -15,16 +15,22 @@ final class ProfileViewModel: ObservableObject {
     @Published var presentedRole: UserRole = .buyer
 
     private let profileService: ProfileServing
+    private let producerService: ProducerServing
     private let favoriteProducerService: FavoriteProducerServing
 
-    init(profileService: ProfileServing, favoriteProducerService: FavoriteProducerServing) {
+    init(
+        profileService: ProfileServing,
+        producerService: ProducerServing,
+        favoriteProducerService: FavoriteProducerServing
+    ) {
         self.profileService = profileService
+        self.producerService = producerService
         self.favoriteProducerService = favoriteProducerService
     }
 
     func load() async {
         guard profile == nil else {
-            refreshFavoriteProducerCount()
+            await refreshFavoriteProducerCount()
             return
         }
         loadState = .loading
@@ -34,15 +40,20 @@ final class ProfileViewModel: ObservableObject {
             if let profile {
                 presentedRole = profile.role
             }
-            refreshFavoriteProducerCount()
+            await refreshFavoriteProducerCount()
             loadState = .loaded
         } catch {
             loadState = .failed("Could not load profile.")
         }
     }
 
-    func refreshFavoriteProducerCount() {
-        favoriteProducerCount = (try? favoriteProducerService.fetchFavoriteProducerIDs().count) ?? 0
+    func refreshFavoriteProducerCount() async {
+        do {
+            let validProducerIDs = Set(try await producerService.fetchProducers().map(\.id))
+            favoriteProducerCount = try favoriteProducerService.fetchFavoriteProducerIDs(validFor: validProducerIDs).count
+        } catch {
+            favoriteProducerCount = 0
+        }
     }
 
     var sellerSnapshot: SellerDashboardSnapshot {

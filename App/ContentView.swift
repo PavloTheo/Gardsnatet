@@ -57,6 +57,7 @@ struct ContentView: View {
                 ProfileView(
                     viewModel: ProfileViewModel(
                         profileService: environment.profileService,
+                        producerService: environment.producerService,
                         favoriteProducerService: favoriteProducerService
                     )
                 )

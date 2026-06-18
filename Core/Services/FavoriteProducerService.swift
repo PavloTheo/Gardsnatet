@@ -10,9 +10,11 @@ import SwiftData
 
 protocol FavoriteProducerServing {
     func fetchFavoriteProducerIDs() throws -> Set<UUID>
+    func fetchFavoriteProducerIDs(validFor validProducerIDs: Set<UUID>) throws -> Set<UUID>
     func isFavorite(producerID: UUID) throws -> Bool
     func addFavorite(producerID: UUID) throws
     func removeFavorite(producerID: UUID) throws
+    func removeFavorites(notIn validProducerIDs: Set<UUID>) throws
     @discardableResult func toggleFavorite(producerID: UUID) throws -> Bool
 }
 
@@ -24,8 +26,12 @@ struct SwiftDataFavoriteProducerService: FavoriteProducerServing {
     }
 
     func fetchFavoriteProducerIDs() throws -> Set<UUID> {
-        let descriptor = FetchDescriptor<FavoriteProducer>()
-        return Set(try modelContext.fetch(descriptor).map(\.producerID))
+        Set(try fetchFavoriteProducers().map(\.producerID))
+    }
+
+    func fetchFavoriteProducerIDs(validFor validProducerIDs: Set<UUID>) throws -> Set<UUID> {
+        try removeFavorites(notIn: validProducerIDs)
+        return try fetchFavoriteProducerIDs().intersection(validProducerIDs)
     }
 
     func isFavorite(producerID: UUID) throws -> Bool {
@@ -46,6 +52,18 @@ struct SwiftDataFavoriteProducerService: FavoriteProducerServing {
         try modelContext.save()
     }
 
+    func removeFavorites(notIn validProducerIDs: Set<UUID>) throws {
+        let favorites = try fetchFavoriteProducers()
+        let orphanFavorites = favorites.filter { !validProducerIDs.contains($0.producerID) }
+
+        guard !orphanFavorites.isEmpty else { return }
+
+        for favorite in orphanFavorites {
+            modelContext.delete(favorite)
+        }
+        try modelContext.save()
+    }
+
     @discardableResult
     func toggleFavorite(producerID: UUID) throws -> Bool {
         if try isFavorite(producerID: producerID) {
@@ -55,6 +73,11 @@ struct SwiftDataFavoriteProducerService: FavoriteProducerServing {
 
         try addFavorite(producerID: producerID)
         return true
+    }
+
+    private func fetchFavoriteProducers() throws -> [FavoriteProducer] {
+        let descriptor = FetchDescriptor<FavoriteProducer>()
+        return try modelContext.fetch(descriptor)
     }
 
     private func favoriteProducer(for producerID: UUID) throws -> FavoriteProducer? {

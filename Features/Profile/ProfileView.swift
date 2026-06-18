@@ -53,7 +53,9 @@ struct ProfileView: View {
             await viewModel.load()
         }
         .onAppear {
-            viewModel.refreshFavoriteProducerCount()
+            Task {
+                await viewModel.refreshFavoriteProducerCount()
+            }
         }
     }
 
@@ -151,6 +153,7 @@ private struct ProfilePreview: View {
         ProfileView(
             viewModel: ProfileViewModel(
                 profileService: MockProfileService(),
+                producerService: MockProducerService(),
                 favoriteProducerService: AppEnvironment.preview.makeFavoriteProducerService(modelContext)
             )
         )
