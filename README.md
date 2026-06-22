@@ -36,6 +36,8 @@ Suggested future demo flow:
 - Protocol-based mock services
 - Shared app environment for dependency injection
 - Buyer flow for local producer discovery
+- Persistent producer favorites backed by SwiftData
+- SwiftData-backed user state with cleanup for orphaned favorite records
 - Map-based browsing concept
 - Order overview and fulfillment status modeling
 - Producer detail pages with story, products, and availability
@@ -46,16 +48,24 @@ Suggested future demo flow:
 
 - Swift
 - SwiftUI
+- SwiftData
 - MVVM
 - Xcode
 - XCTest
-- Mock service layer
+- Protocol-based service layer
 - Local in-memory prototype data
 - Swift concurrency-ready service abstractions
 
+Implemented technical features:
+
+- Persistent producer favorites using SwiftData
+- Favorite state shared across Discover, Producer Detail, and Profile
+- Stable ID-based persistence for saved producers
+- Orphan favorite cleanup for stale persisted rows
+- Focused unit tests for favorite persistence and valid favorite counting
+
 Planned technical additions:
 
-- SwiftData or lightweight local persistence for saved producers
 - Local JSON-backed data loading
 - Expanded async/await usage
 - Modern iOS 17+ SwiftUI Map APIs
@@ -91,7 +101,7 @@ The `Core` layer contains reusable domain and infrastructure code.
   - Marketplace domain models such as `Producer`, `Product`, `Order`, and seller dashboard types.
 
 - `Core/Services`
-  - Service protocols and mock implementations used to keep the prototype modular and easy to expand.
+  - Service protocols, mock implementations, and SwiftData-backed favorite persistence used to keep the prototype modular and easy to expand.
 
 - `Core/Support`
   - Shared utility types such as `LoadState`.
@@ -101,7 +111,7 @@ The `Core` layer contains reusable domain and infrastructure code.
 The `Features` layer contains screen-specific SwiftUI views and view models.
 
 - `Features/Discover`
-  - Discovery feed, filters, and producer cards.
+  - Discovery feed, filters, producer cards, and favorite controls.
 
 - `Features/Map`
   - Map browsing and producer selection.
@@ -110,10 +120,10 @@ The `Features` layer contains screen-specific SwiftUI views and view models.
   - Order list and status overview.
 
 - `Features/ProducerDetail`
-  - Producer story, pricing range, product availability, and detail presentation.
+  - Producer story, pricing range, product availability, favorite state, and detail presentation.
 
 - `Features/Profile`
-  - Buyer profile and demo seller dashboard mode.
+  - Buyer profile, persisted saved-producer count, and demo seller dashboard mode.
 
 ## Architecture Decisions
 
@@ -128,6 +138,14 @@ Each major screen uses a dedicated view model where appropriate. This keeps Swif
 ### Protocol-based services
 
 The prototype uses service protocols with mock implementations. This allows the app to behave like it has a real data layer while remaining simple to run locally. It also creates a clean path toward replacing mock services with local JSON, persistence, or a backend-backed implementation later.
+
+### SwiftData-backed user state
+
+Producer catalog data and user-specific saved state are intentionally kept separate. Producers are loaded through the app’s service layer, while favorited producer IDs are persisted locally using SwiftData. View models depend on a `FavoriteProducerServing` protocol rather than SwiftData directly, keeping persistence details isolated and easier to test.
+
+### SwiftData-backed favorites
+
+Producer favorites are persisted locally with SwiftData and stored by stable `Producer.id` values. Favorite state is available from Discover producer cards and Producer Detail, survives app relaunch, and is reflected in the Profile saved-producer count. The favorite service also filters and cleans up orphaned favorite rows whose stored producer IDs no longer match the current producer data.
 
 ### Shared app environment
 
@@ -160,23 +178,23 @@ The app is not intended to represent a live alcohol sales service, bypass existi
 2. Select an iPhone simulator.
 3. Build and run the `Gardsnatet` scheme.
 
-The app currently uses mock data only. No backend setup is required.
+The app currently uses mock producer, order, and profile data with local SwiftData persistence for favorites. No backend setup is required.
 
 ## Testing
 
 Unit tests live in `GardsnatetTests`.
 
-Current test coverage is intentionally light and focused on view model filtering logic. The test suite is planned to expand alongside persistence, data loading, and seller dashboard features.
+Current test coverage is intentionally light and focused on view model filtering plus SwiftData favorite persistence cleanup. The test suite is planned to expand alongside data loading and seller dashboard features.
 
 ## Roadmap
 
 ### Near-term
 
-- Add producer favorites with persistent saved state
 - Replace hardcoded mock data with local JSON loading
 - Expand view model unit tests
 - Update map implementation to newer iOS 17+ `Map` APIs
 - Improve screenshots with simulator-framed images or a short walkthrough GIF
+- Add a dedicated saved producers list or filter view
 
 ### Medium-term
 
