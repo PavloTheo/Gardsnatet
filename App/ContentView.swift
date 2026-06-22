@@ -5,9 +5,12 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+
     private let environment: AppEnvironment
 
     init(environment: AppEnvironment = .preview) {
@@ -15,10 +18,16 @@ struct ContentView: View {
     }
 
     var body: some View {
+        let favoriteProducerService = environment.makeFavoriteProducerService(modelContext)
+
         TabView {
             NavigationStack {
                 DiscoverView(
-                    viewModel: DiscoverViewModel(producerService: environment.producerService)
+                    viewModel: DiscoverViewModel(
+                        producerService: environment.producerService,
+                        favoriteProducerService: favoriteProducerService
+                    ),
+                    favoriteProducerService: favoriteProducerService
                 )
             }
             .tabItem {
@@ -27,7 +36,8 @@ struct ContentView: View {
 
             NavigationStack {
                 MapView(
-                    viewModel: MapViewModel(producerService: environment.producerService)
+                    viewModel: MapViewModel(producerService: environment.producerService),
+                    makeFavoriteProducerService: environment.makeFavoriteProducerService
                 )
             }
             .tabItem {
@@ -45,7 +55,11 @@ struct ContentView: View {
 
             NavigationStack {
                 ProfileView(
-                    viewModel: ProfileViewModel(profileService: environment.profileService)
+                    viewModel: ProfileViewModel(
+                        profileService: environment.profileService,
+                        producerService: environment.producerService,
+                        favoriteProducerService: favoriteProducerService
+                    )
                 )
             }
             .tabItem {
@@ -57,4 +71,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: FavoriteProducer.self, inMemory: true)
 }

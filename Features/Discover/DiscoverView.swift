@@ -5,13 +5,17 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 
 struct DiscoverView: View {
     @StateObject private var viewModel: DiscoverViewModel
 
-    init(viewModel: DiscoverViewModel) {
+    private let favoriteProducerService: FavoriteProducerServing
+
+    init(viewModel: DiscoverViewModel, favoriteProducerService: FavoriteProducerServing) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.favoriteProducerService = favoriteProducerService
     }
 
     private var searchTextBinding: Binding<String> {
@@ -45,6 +49,9 @@ struct DiscoverView: View {
         .navigationBarTitleDisplayMode(.large)
         .task {
             await viewModel.load()
+        }
+        .onAppear {
+            viewModel.refreshFavoriteProducerIDs()
         }
     }
 
@@ -110,12 +117,7 @@ struct DiscoverView: View {
                 )
             } else {
                 ForEach(viewModel.filteredProducers) { producer in
-                    NavigationLink {
-                        ProducerDetailView(viewModel: ProducerDetailViewModel(producer: producer))
-                    } label: {
-                        producerCard(for: producer)
-                    }
-                    .buttonStyle(.plain)
+                    producerRow(for: producer)
                 }
             }
         }
@@ -137,6 +139,42 @@ struct DiscoverView: View {
         .buttonStyle(.plain)
     }
 
+    private func producerRow(for producer: Producer) -> some View {
+        ZStack(alignment: .topTrailing) {
+            NavigationLink {
+                ProducerDetailView(
+                    viewModel: ProducerDetailViewModel(
+                        producer: producer,
+                        favoriteProducerService: favoriteProducerService
+                    )
+                )
+            } label: {
+                producerCard(for: producer)
+            }
+            .buttonStyle(.plain)
+
+            favoriteButton(for: producer)
+                .padding(.top, 16)
+                .padding(.trailing, 16)
+        }
+    }
+
+    private func favoriteButton(for producer: Producer) -> some View {
+        let isFavorite = viewModel.isFavorite(producer)
+
+        return Button {
+            viewModel.toggleFavorite(for: producer)
+        } label: {
+            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                .font(.headline)
+                .foregroundStyle(isFavorite ? Color.accentColor : Color.secondary)
+                .frame(width: 36, height: 36)
+                .background(.background, in: Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
+    }
+
     private func producerCard(for producer: Producer) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
@@ -156,6 +194,7 @@ struct DiscoverView: View {
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
                     .background(Color(.secondarySystemBackground), in: Capsule())
+                    .padding(.trailing, 44)
             }
 
             Text(producer.story)
@@ -185,5 +224,22 @@ struct DiscoverView: View {
 }
 
 #Preview {
-    DiscoverView(viewModel: DiscoverViewModel(producerService: MockProducerService()))
+    DiscoverPreview()
+        .modelContainer(for: FavoriteProducer.self, inMemory: true)
+}
+
+private struct DiscoverPreview: View {
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        let favoriteProducerService = AppEnvironment.preview.makeFavoriteProducerService(modelContext)
+
+        DiscoverView(
+            viewModel: DiscoverViewModel(
+                producerService: MockProducerService(),
+                favoriteProducerService: favoriteProducerService
+            ),
+            favoriteProducerService: favoriteProducerService
+        )
+    }
 }

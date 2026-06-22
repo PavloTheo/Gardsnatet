@@ -5,6 +5,7 @@
 //  Created by Codex on 2025-08-26.
 //
 
+import SwiftData
 import SwiftUI
 import CoreLocation
 
@@ -31,6 +32,17 @@ struct ProducerDetailView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle(viewModel.producer.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            Button {
+                viewModel.toggleFavorite()
+            } label: {
+                Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+            }
+            .accessibilityLabel(viewModel.isFavorite ? "Remove from favorites" : "Add to favorites")
+        }
+        .onAppear {
+            viewModel.loadFavoriteState()
+        }
     }
 
     private var heroSection: some View {
@@ -117,20 +129,32 @@ struct ProducerDetailView: View {
 }
 
 #Preview {
-    ProducerDetailView(
-        viewModel: ProducerDetailViewModel(
-            producer: Producer(
-                id: UUID(),
-                name: "Preview Producer",
-                region: "Skane",
-                story: "A small-batch producer with a strong regional identity and a pickup-first operating model.",
-                coordinate: CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038),
-                categories: [.beer, .cider],
-                products: [
-                    Product(id: UUID(), name: "Farmhouse Pale", category: .beer, priceSEK: 59, abv: 5.4, isInStock: true),
-                    Product(id: UUID(), name: "Apple Dry Cider", category: .cider, priceSEK: 64, abv: 6.1, isInStock: false)
-                ]
+    NavigationStack {
+        ProducerDetailPreview()
+    }
+    .modelContainer(for: FavoriteProducer.self, inMemory: true)
+}
+
+private struct ProducerDetailPreview: View {
+    @Environment(\.modelContext) private var modelContext
+
+    var body: some View {
+        ProducerDetailView(
+            viewModel: ProducerDetailViewModel(
+                producer: Producer(
+                    id: UUID(),
+                    name: "Preview Producer",
+                    region: "Skane",
+                    story: "A small-batch producer with a strong regional identity and a pickup-first operating model.",
+                    coordinate: CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038),
+                    categories: [.beer, .cider],
+                    products: [
+                        Product(id: UUID(), name: "Farmhouse Pale", category: .beer, priceSEK: 59, abv: 5.4, isInStock: true),
+                        Product(id: UUID(), name: "Apple Dry Cider", category: .cider, priceSEK: 64, abv: 6.1, isInStock: false)
+                    ]
+                ),
+                favoriteProducerService: AppEnvironment.preview.makeFavoriteProducerService(modelContext)
             )
         )
-    )
+    }
 }

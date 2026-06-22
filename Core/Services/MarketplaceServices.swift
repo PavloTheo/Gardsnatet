@@ -20,11 +20,17 @@ protocol ProfileServing {
     func fetchProfile() async throws -> UserProfile
 }
 
+private enum DemoProducerIDs {
+    static let skaneBarrelHouse = UUID(uuid: (0x7B, 0x5D, 0x44, 0x62, 0x9F, 0x52, 0x4D, 0x25, 0x9C, 0x1D, 0x62, 0x1C, 0x23, 0x79, 0xB7, 0x01))
+    static let gotlandVineyard = UUID(uuid: (0x6C, 0x39, 0x49, 0x94, 0x02, 0xA3, 0x41, 0xD2, 0x8F, 0x6B, 0x93, 0x2A, 0x18, 0x8C, 0x46, 0xB2))
+    static let dalarnaMeadery = UUID(uuid: (0x32, 0x45, 0x1E, 0x10, 0x8B, 0x9C, 0x42, 0xE7, 0x90, 0xF7, 0x4F, 0xB9, 0x1A, 0xA3, 0x63, 0x0D))
+}
+
 struct MockProducerService: ProducerServing {
     func fetchProducers() async throws -> [Producer] {
         [
             Producer(
-                id: UUID(),
+                id: DemoProducerIDs.skaneBarrelHouse,
                 name: "Skane Barrel House",
                 region: "Skane",
                 story: "Small-batch farmhouse brewery focused on seasonal ales and local grain.",
@@ -36,7 +42,7 @@ struct MockProducerService: ProducerServing {
                 ]
             ),
             Producer(
-                id: UUID(),
+                id: DemoProducerIDs.gotlandVineyard,
                 name: "Gotland Vineyard Co.",
                 region: "Gotland",
                 story: "Experimental vineyard and cellar producing sparkling wines for local pickup.",
@@ -48,7 +54,7 @@ struct MockProducerService: ProducerServing {
                 ]
             ),
             Producer(
-                id: UUID(),
+                id: DemoProducerIDs.dalarnaMeadery,
                 name: "Dalarna Meadery",
                 region: "Dalarna",
                 story: "Honey-driven meadery pairing traditional recipes with modern fruit blends.",

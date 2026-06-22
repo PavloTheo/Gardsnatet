@@ -5,15 +5,23 @@
 //  Created by Pavlo Theodoridis on 2025-05-15.
 //
 
+import SwiftData
 import SwiftUI
 import MapKit
 
 struct MapView: View {
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel: MapViewModel
     @State private var selectedProducer: Producer?
 
-    init(viewModel: MapViewModel) {
+    private let makeFavoriteProducerService: (ModelContext) -> FavoriteProducerServing
+
+    init(
+        viewModel: MapViewModel,
+        makeFavoriteProducerService: @escaping (ModelContext) -> FavoriteProducerServing
+    ) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.makeFavoriteProducerService = makeFavoriteProducerService
     }
 
     var body: some View {
@@ -67,12 +75,21 @@ struct MapView: View {
         }
         .sheet(item: $selectedProducer) { producer in
             NavigationStack {
-                ProducerDetailView(viewModel: ProducerDetailViewModel(producer: producer))
+                ProducerDetailView(
+                    viewModel: ProducerDetailViewModel(
+                        producer: producer,
+                        favoriteProducerService: makeFavoriteProducerService(modelContext)
+                    )
+                )
             }
         }
     }
 }
 
 #Preview {
-    MapView(viewModel: MapViewModel(producerService: MockProducerService()))
+    MapView(
+        viewModel: MapViewModel(producerService: MockProducerService()),
+        makeFavoriteProducerService: AppEnvironment.preview.makeFavoriteProducerService
+    )
+    .modelContainer(for: FavoriteProducer.self, inMemory: true)
 }
