@@ -64,6 +64,47 @@ struct GardsnatetTests {
         #expect(viewModel.favoriteProducerCount == 1)
         #expect(favoriteProducerService.favoriteProducerIDs == [validProducerID])
     }
+
+    @Test func producerCodableUsesNestedCoordinateObject() throws {
+        let json = """
+        {
+          "id": "7B5D4462-9F52-4D25-9C1D-621C2379B701",
+          "name": "Skane Barrel House",
+          "region": "Skane",
+          "story": "Small-batch farmhouse brewery focused on seasonal ales and local grain.",
+          "coordinate": {
+            "latitude": 55.605,
+            "longitude": 13.0038
+          },
+          "categories": ["beer", "cider"],
+          "products": [
+            {
+              "id": "D6A9E111-70C9-456F-8E75-19F6259D5980",
+              "name": "Farmhouse Pale",
+              "category": "beer",
+              "priceSEK": 59,
+              "abv": 5.4,
+              "isInStock": true
+            }
+          ]
+        }
+        """
+        let producer = try JSONDecoder().decode(Producer.self, from: Data(json.utf8))
+
+        #expect(producer.id.uuidString == "7B5D4462-9F52-4D25-9C1D-621C2379B701")
+        #expect(producer.coordinate.latitude == 55.605)
+        #expect(producer.coordinate.longitude == 13.0038)
+        #expect(producer.categories == [.beer, .cider])
+        #expect(producer.products.first?.category == .beer)
+
+        let encodedProducer = try JSONDecoder().decode(
+            Producer.self,
+            from: JSONEncoder().encode(producer)
+        )
+
+        #expect(encodedProducer.coordinate.latitude == producer.coordinate.latitude)
+        #expect(encodedProducer.coordinate.longitude == producer.coordinate.longitude)
+    }
 }
 
 private struct ProducerServiceStub: ProducerServing {

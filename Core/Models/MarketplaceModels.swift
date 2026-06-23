@@ -16,7 +16,7 @@ enum UserRole: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-enum ProductCategory: String, CaseIterable, Identifiable {
+enum ProductCategory: String, CaseIterable, Codable, Identifiable {
     case wine
     case beer
     case cider
@@ -51,7 +51,7 @@ enum OrderStatus: String, CaseIterable, Identifiable {
     }
 }
 
-struct Product: Identifiable, Hashable {
+struct Product: Codable, Identifiable, Hashable {
     let id: UUID
     let name: String
     let category: ProductCategory
@@ -89,6 +89,55 @@ extension Producer {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+}
+
+extension Producer: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case region
+        case story
+        case coordinate
+        case categories
+        case products
+    }
+
+    private struct CodableCoordinate: Codable {
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let codableCoordinate = try container.decode(CodableCoordinate.self, forKey: .coordinate)
+
+        id = try container.decode(UUID.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        region = try container.decode(String.self, forKey: .region)
+        story = try container.decode(String.self, forKey: .story)
+        coordinate = CLLocationCoordinate2D(
+            latitude: codableCoordinate.latitude,
+            longitude: codableCoordinate.longitude
+        )
+        categories = try container.decode([ProductCategory].self, forKey: .categories)
+        products = try container.decode([Product].self, forKey: .products)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        let codableCoordinate = CodableCoordinate(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        )
+
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(region, forKey: .region)
+        try container.encode(story, forKey: .story)
+        try container.encode(codableCoordinate, forKey: .coordinate)
+        try container.encode(categories, forKey: .categories)
+        try container.encode(products, forKey: .products)
     }
 }
 
