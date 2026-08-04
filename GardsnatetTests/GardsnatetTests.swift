@@ -105,6 +105,27 @@ struct GardsnatetTests {
         #expect(encodedProducer.coordinate.latitude == producer.coordinate.latitude)
         #expect(encodedProducer.coordinate.longitude == producer.coordinate.longitude)
     }
+
+    @Test func bundledProducersCatalogDecodesWithStableIDs() throws {
+        let catalogURL = try #require(Bundle.main.url(forResource: "Producers", withExtension: "json"))
+        let producers = try JSONDecoder().decode([Producer].self, from: Data(contentsOf: catalogURL))
+
+        #expect(producers.map(\.id.uuidString) == [
+            "7B5D4462-9F52-4D25-9C1D-621C2379B701",
+            "6C394994-02A3-41D2-8F6B-932A188C46B2",
+            "32451E10-8B9C-42E7-90F7-4FB91AA3630D"
+        ])
+
+        let productIDs = producers.flatMap { $0.products.map(\.id) }
+        #expect(productIDs.map(\.uuidString) == [
+            "D6A9E111-70C9-456F-8E75-19F6259D5980",
+            "BD3286EC-49F2-4635-9E6C-84016E260AB2",
+            "FC63C1C8-E3BF-4E87-932A-E1A1B42AEECF",
+            "2B24B07E-7C34-412B-B4BE-7CF7F37F9964",
+            "E8C91D7F-14CC-4E32-A084-3C4D119539A5"
+        ])
+        #expect(Set(productIDs).count == productIDs.count)
+    }
 }
 
 private struct ProducerServiceStub: ProducerServing {
