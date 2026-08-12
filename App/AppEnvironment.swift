@@ -15,11 +15,16 @@ struct AppEnvironment {
     let makeFavoriteProducerService: (ModelContext) -> FavoriteProducerServing
 
     static let live = AppEnvironment(
-        producerService: MockProducerService(),
+        producerService: LocalJSONProducerService(),
         orderService: MockOrderService(),
         profileService: MockProfileService(),
         makeFavoriteProducerService: SwiftDataFavoriteProducerService.init(modelContext:)
     )
 
-    static let preview = live
+    static let preview = AppEnvironment(
+        producerService: MockProducerService(),
+        orderService: MockOrderService(),
+        profileService: MockProfileService(),
+        makeFavoriteProducerService: SwiftDataFavoriteProducerService.init(modelContext:)
+    )
 }

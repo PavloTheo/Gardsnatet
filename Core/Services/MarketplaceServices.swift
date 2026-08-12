@@ -20,48 +20,51 @@ protocol ProfileServing {
     func fetchProfile() async throws -> UserProfile
 }
 
-private enum DemoProducerIDs {
-    static let skaneBarrelHouse = UUID(uuid: (0x7B, 0x5D, 0x44, 0x62, 0x9F, 0x52, 0x4D, 0x25, 0x9C, 0x1D, 0x62, 0x1C, 0x23, 0x79, 0xB7, 0x01))
-    static let gotlandVineyard = UUID(uuid: (0x6C, 0x39, 0x49, 0x94, 0x02, 0xA3, 0x41, 0xD2, 0x8F, 0x6B, 0x93, 0x2A, 0x18, 0x8C, 0x46, 0xB2))
-    static let dalarnaMeadery = UUID(uuid: (0x32, 0x45, 0x1E, 0x10, 0x8B, 0x9C, 0x42, 0xE7, 0x90, 0xF7, 0x4F, 0xB9, 0x1A, 0xA3, 0x63, 0x0D))
+private enum MockProducerFixtureIDs {
+    static let previewHopLab = UUID(uuid: (0x10, 0x01, 0xA0, 0x01, 0x11, 0x11, 0x4A, 0xAA, 0x80, 0x01, 0x10, 0x01, 0xA0, 0x01, 0x00, 0x01))
+    static let previewOrchardLab = UUID(uuid: (0x10, 0x01, 0xA0, 0x02, 0x22, 0x22, 0x4B, 0xBB, 0x80, 0x02, 0x10, 0x01, 0xA0, 0x02, 0x00, 0x02))
+
+    static let testPale = UUID(uuid: (0x20, 0x02, 0xB0, 0x01, 0x11, 0x11, 0x4A, 0xAA, 0x90, 0x01, 0x20, 0x02, 0xB0, 0x01, 0x00, 0x01))
+    static let testCider = UUID(uuid: (0x20, 0x02, 0xB0, 0x02, 0x22, 0x22, 0x4B, 0xBB, 0x90, 0x02, 0x20, 0x02, 0xB0, 0x02, 0x00, 0x02))
 }
 
 struct MockProducerService: ProducerServing {
     func fetchProducers() async throws -> [Producer] {
         [
             Producer(
-                id: DemoProducerIDs.skaneBarrelHouse,
-                name: "Skane Barrel House",
-                region: "Skane",
-                story: "Small-batch farmhouse brewery focused on seasonal ales and local grain.",
-                coordinate: CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038),
-                categories: [.beer, .cider],
+                id: MockProducerFixtureIDs.previewHopLab,
+                name: "Preview Hop Lab",
+                region: "Test Region North",
+                story: "Synthetic preview brewery used for UI fixtures and focused tests.",
+                coordinate: CLLocationCoordinate2D(latitude: 59.3346, longitude: 18.0632),
+                categories: [.beer],
                 products: [
-                    Product(id: UUID(), name: "Farmhouse Pale", category: .beer, priceSEK: 59, abv: 5.4, isInStock: true),
-                    Product(id: UUID(), name: "Apple Dry Cider", category: .cider, priceSEK: 64, abv: 6.1, isInStock: true)
+                    Product(
+                        id: MockProducerFixtureIDs.testPale,
+                        name: "Fixture Pale Ale",
+                        category: .beer,
+                        priceSEK: 50,
+                        abv: 5.0,
+                        isInStock: true
+                    )
                 ]
             ),
             Producer(
-                id: DemoProducerIDs.gotlandVineyard,
-                name: "Gotland Vineyard Co.",
-                region: "Gotland",
-                story: "Experimental vineyard and cellar producing sparkling wines for local pickup.",
-                coordinate: CLLocationCoordinate2D(latitude: 57.6348, longitude: 18.2948),
-                categories: [.wine],
+                id: MockProducerFixtureIDs.previewOrchardLab,
+                name: "Preview Orchard Lab",
+                region: "Test Region South",
+                story: "Synthetic preview cidery used to exercise category filtering and empty-state transitions.",
+                coordinate: CLLocationCoordinate2D(latitude: 55.6049, longitude: 13.0038),
+                categories: [.cider, .mead],
                 products: [
-                    Product(id: UUID(), name: "North Sea Brut", category: .wine, priceSEK: 215, abv: 11.5, isInStock: true),
-                    Product(id: UUID(), name: "Rose 2024", category: .wine, priceSEK: 189, abv: 12.0, isInStock: false)
-                ]
-            ),
-            Producer(
-                id: DemoProducerIDs.dalarnaMeadery,
-                name: "Dalarna Meadery",
-                region: "Dalarna",
-                story: "Honey-driven meadery pairing traditional recipes with modern fruit blends.",
-                coordinate: CLLocationCoordinate2D(latitude: 60.6065, longitude: 15.6355),
-                categories: [.mead, .beer],
-                products: [
-                    Product(id: UUID(), name: "Forest Honey Mead", category: .mead, priceSEK: 142, abv: 8.5, isInStock: true)
+                    Product(
+                        id: MockProducerFixtureIDs.testCider,
+                        name: "Fixture Dry Cider",
+                        category: .cider,
+                        priceSEK: 65,
+                        abv: 6.2,
+                        isInStock: true
+                    )
                 ]
             )
         ]

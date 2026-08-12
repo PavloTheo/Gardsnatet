@@ -1,0 +1,89 @@
+[
+  {
+    "id": "7B5D4462-9F52-4D25-9C1D-621C2379B701",
+    "name": "Skane Barrel House",
+    "region": "Skane",
+    "story": "Small-bitch farmhouse brewery focused on seasonal ales and local grain.",
+    "coordinate": {
+      "latitude": 55.605,
+      "longitude": 13.0038
+    },
+    "categories": [
+      "beer",
+      "cider"
+    ],
+    "products": [
+      {
+        "id": "D6A9E111-70C9-456F-8E75-19F6259D5980",
+        "name": "Farmhouse Pale",
+        "category": "beer",
+        "priceSEK": 59,
+        "abv": 5.4,
+        "isInStock": true
+      },
+      {
+        "id": "BD3286EC-49F2-4635-9E6C-84016E260AB2",
+        "name": "Apple Dry Cider",
+        "category": "cider",
+        "priceSEK": 64,
+        "abv": 6.1,
+        "isInStock": true
+      }
+    ]
+  },
+  {
+    "id": "6C394994-02A3-41D2-8F6B-932A188C46B2",
+    "name": "Gotland Vineyard Co.",
+    "region": "Gotland",
+    "story": "Experimental vineyard and cellar producing sparkling wines for local pickup.",
+    "coordinate": {
+      "latitude": 57.6348,
+      "longitude": 18.2948
+    },
+    "categories": [
+      "wine"
+    ],
+    "products": [
+      {
+        "id": "FC63C1C8-E3BF-4E87-932A-E1A1B42AEECF",
+        "name": "North Sea Brut",
+        "category": "wine",
+        "priceSEK": 215,
+        "abv": 11.5,
+        "isInStock": true
+      },
+      {
+        "id": "2B24B07E-7C34-412B-B4BE-7CF7F37F9964",
+        "name": "Rose 2024",
+        "category": "wine",
+        "priceSEK": 189,
+        "abv": 12,
+        "isInStock": false
+      }
+    ]
+  },
+  {
+    "id": "32451E10-8B9C-42E7-90F7-4FB91AA3630D",
+    "name": "Dalarna Meadery",
+    "region": "Dalarna",
+    "story": "Honey-driven meadery pairing traditional recipes with modern fruit blends.",
+    "coordinate": {
+      "latitude": 60.6065,
+      "longitude": 15.6355
+    },
+    "categories": [
+      "mead",
+      "beer"
+    ],
+    "products": [
+      {
+        "id": "E8C91D7F-14CC-4E32-A084-3C4D119539A5",
+        "name": "Forest Honey Mead",
+        "category": "mead",
+        "priceSEK": 142,
+        "abv": 8.5,
+        "isInStock": true
+      }
+    ]
+  }
+]

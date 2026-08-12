@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E12DB0D3021DD0D0098C7C4 /* Producers.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E12DB0C3021DD0D0098C7C4 /* Producers.json */; };
+		3E12DB0F3021E2810098C7C4 /* LocalJSONProducerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */; };
 		3E6B487D2F8E365500D6FD2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48742F8E365500D6FD2B /* ContentView.swift */; };
 		3E6B487E2F8E365500D6FD2B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48752F8E365500D6FD2B /* DiscoverView.swift */; };
 		3E6B487F2F8E365500D6FD2B /* GardsnatetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48762F8E365500D6FD2B /* GardsnatetApp.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E12DB0C3021DD0D0098C7C4 /* Producers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Producers.json; sourceTree = "<group>"; };
+		3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalJSONProducerService.swift; sourceTree = "<group>"; };
 		3E6B48742F8E365500D6FD2B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3E6B48752F8E365500D6FD2B /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		3E6B48762F8E365500D6FD2B /* GardsnatetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardsnatetApp.swift; sourceTree = "<group>"; };
@@ -115,6 +119,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3E12DB0B3021DCFA0098C7C4 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3E12DB0C3021DD0D0098C7C4 /* Producers.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		3E6B489E2F8E9B9D00D6FD2B /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +144,7 @@
 				3E6B48A22F8E9BA700D6FD2B /* Services */,
 				3E6B48A32F8E9BA700D6FD2B /* Support */,
 				3E9A38E22FBC929E007590D1 /* Persistence */,
+				3E12DB0B3021DCFA0098C7C4 /* Data */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -162,6 +175,7 @@
 			children = (
 				3E6B488E2F8E382400D6FD2B /* MarketplaceServices.swift */,
 				3E9A38E52FBCA656007590D1 /* FavoriteProducerService.swift */,
+				3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -371,6 +385,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E12DB0D3021DD0D0098C7C4 /* Producers.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +423,7 @@
 				3E9A38E42FBC92A2007590D1 /* FavoriteProducer.swift in Sources */,
 				3E6B48952F8E382400D6FD2B /* MarketplaceServices.swift in Sources */,
 				3E6B48962F8E382400D6FD2B /* OrdersViewModel.swift in Sources */,
+				3E12DB0F3021E2810098C7C4 /* LocalJSONProducerService.swift in Sources */,
 				3E6B48972F8E382400D6FD2B /* ProfileViewModel.swift in Sources */,
 				3E6B487F2F8E365500D6FD2B /* GardsnatetApp.swift in Sources */,
 				3E6B48802F8E365500D6FD2B /* Item.swift in Sources */,
