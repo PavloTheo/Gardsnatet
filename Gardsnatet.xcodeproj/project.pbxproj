@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E12DB0D3021DD0D0098C7C4 /* Producers.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E12DB0C3021DD0D0098C7C4 /* Producers.json */; };
+		3E12DB0F3021E2810098C7C4 /* LocalJSONProducerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */; };
 		3E6B487D2F8E365500D6FD2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48742F8E365500D6FD2B /* ContentView.swift */; };
 		3E6B487E2F8E365500D6FD2B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48752F8E365500D6FD2B /* DiscoverView.swift */; };
 		3E6B487F2F8E365500D6FD2B /* GardsnatetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6B48762F8E365500D6FD2B /* GardsnatetApp.swift */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		3E12DB0C3021DD0D0098C7C4 /* Producers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Producers.json; sourceTree = "<group>"; };
+		3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalJSONProducerService.swift; sourceTree = "<group>"; };
 		3E6B48742F8E365500D6FD2B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3E6B48752F8E365500D6FD2B /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		3E6B48762F8E365500D6FD2B /* GardsnatetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GardsnatetApp.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			children = (
 				3E6B488E2F8E382400D6FD2B /* MarketplaceServices.swift */,
 				3E9A38E52FBCA656007590D1 /* FavoriteProducerService.swift */,
+				3E12DB0E3021E2810098C7C4 /* LocalJSONProducerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				3E9A38E42FBC92A2007590D1 /* FavoriteProducer.swift in Sources */,
 				3E6B48952F8E382400D6FD2B /* MarketplaceServices.swift in Sources */,
 				3E6B48962F8E382400D6FD2B /* OrdersViewModel.swift in Sources */,
+				3E12DB0F3021E2810098C7C4 /* LocalJSONProducerService.swift in Sources */,
 				3E6B48972F8E382400D6FD2B /* ProfileViewModel.swift in Sources */,
 				3E6B487F2F8E365500D6FD2B /* GardsnatetApp.swift in Sources */,
 				3E6B48802F8E365500D6FD2B /* Item.swift in Sources */,
