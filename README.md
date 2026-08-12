@@ -8,7 +8,7 @@ The app explores a two-sided marketplace where buyers can discover local produce
 
 ## Portfolio Summary
 
-Gardsnatet was built as a product-oriented SwiftUI prototype to demonstrate how a real marketplace concept could be structured from an iOS development perspective. The project focuses on clean feature separation, mock-service-driven data flow, buyer and seller journeys, and a domain model that supports local discovery, producer storytelling, order overview, and seller inventory concepts. The goal is not to ship a complete commercial app, but to present a realistic, expandable foundation for a modern SwiftUI application.
+Gardsnatet was built as a product-oriented SwiftUI prototype to demonstrate how a real marketplace concept could be structured from an iOS development perspective. The project focuses on clean feature separation, local JSON-backed catalog loading, buyer and seller journeys, and a domain model that supports local discovery, producer storytelling, order overview, and seller inventory concepts. The goal is not to ship a complete commercial app, but to present a realistic, expandable foundation for a modern SwiftUI application.
 
 ## Screens
 
@@ -33,8 +33,9 @@ Suggested future demo flow:
 
 - Feature-oriented SwiftUI project structure
 - MVVM-style screen organization
-- Protocol-based mock services
+- Protocol-based services
 - Shared app environment for dependency injection
+- Codable producer and product catalog loading from bundled JSON
 - Buyer flow for local producer discovery
 - Persistent producer favorites backed by SwiftData
 - SwiftData-backed user state with cleanup for orphaned favorite records
@@ -53,20 +54,23 @@ Suggested future demo flow:
 - Xcode
 - XCTest
 - Protocol-based service layer
-- Local in-memory prototype data
+- Bundled local JSON catalog data
 - Swift concurrency-ready service abstractions
 
 Implemented technical features:
 
+- Bundled `Producers.json` catalog loaded by `LocalJSONProducerService`
+- Codable `Producer` and `Product` models
+- Nested latitude/longitude coordinate decoding for producers
+- Stable producer and product IDs in the bundled catalog
 - Persistent producer favorites using SwiftData
 - Favorite state shared across Discover, Producer Detail, and Profile
 - Stable ID-based persistence for saved producers
 - Orphan favorite cleanup for stale persisted rows
-- Focused unit tests for favorite persistence and valid favorite counting
+- Focused unit tests for JSON decoding, service loading, favorite persistence, and valid favorite counting
 
 Planned technical additions:
 
-- Local JSON-backed data loading
 - Expanded async/await usage
 - Modern iOS 17+ SwiftUI Map APIs
 - Broader unit test coverage for view models and core flows
@@ -79,7 +83,9 @@ The project is organized around a feature-first structure with shared domain mod
 Gardsnatet/
 ├── App/
 ├── Core/
+│   ├── Data/
 │   ├── Models/
+│   ├── Persistence/
 │   ├── Services/
 │   └── Support/
 └── Features/
@@ -101,7 +107,10 @@ The `Core` layer contains reusable domain and infrastructure code.
   - Marketplace domain models such as `Producer`, `Product`, `Order`, and seller dashboard types.
 
 - `Core/Services`
-  - Service protocols, mock implementations, and SwiftData-backed favorite persistence used to keep the prototype modular and easy to expand.
+  - Service protocols, bundled JSON catalog loading, mock preview fixtures, and SwiftData-backed favorite persistence used to keep the prototype modular and easy to expand.
+
+- `Core/Data`
+  - Bundled catalog resources such as `Producers.json`.
 
 - `Core/Support`
   - Shared utility types such as `LoadState`.
@@ -137,7 +146,11 @@ Each major screen uses a dedicated view model where appropriate. This keeps Swif
 
 ### Protocol-based services
 
-The prototype uses service protocols with mock implementations. This allows the app to behave like it has a real data layer while remaining simple to run locally. It also creates a clean path toward replacing mock services with local JSON, persistence, or a backend-backed implementation later.
+The prototype uses service protocols so screens depend on abstractions rather than concrete data sources. The live producer catalog is loaded from bundled JSON, while small deterministic mock fixtures remain available for SwiftUI previews and focused tests. This keeps the app simple to run locally and leaves a clean path toward a backend-backed implementation later.
+
+### Bundled catalog and local user state
+
+Producer and product catalog data comes from `Core/Data/Producers.json`, decoded through `LocalJSONProducerService`. User-specific favorites are separate persisted state stored with SwiftData by stable `Producer.id` values. This keeps shared catalog data and per-user saved state from being coupled.
 
 ### SwiftData-backed user state
 
@@ -178,19 +191,18 @@ The app is not intended to represent a live alcohol sales service, bypass existi
 2. Select an iPhone simulator.
 3. Build and run the `Gardsnatet` scheme.
 
-The app currently uses mock producer, order, and profile data with local SwiftData persistence for favorites. No backend setup is required.
+The app currently loads producer and product catalog data from bundled JSON, while order and profile data remain mock-backed. Favorites are stored locally with SwiftData. No backend setup is required.
 
 ## Testing
 
 Unit tests live in `GardsnatetTests`.
 
-Current test coverage is intentionally light and focused on view model filtering plus SwiftData favorite persistence cleanup. The test suite is planned to expand alongside data loading and seller dashboard features.
+Current test coverage is intentionally light and focused on view model filtering, bundled JSON decoding/loading, and SwiftData favorite persistence cleanup. The test suite is planned to expand alongside seller dashboard features.
 
 ## Roadmap
 
 ### Near-term
 
-- Replace hardcoded mock data with local JSON loading
 - Expand view model unit tests
 - Update map implementation to newer iOS 17+ `Map` APIs
 - Improve screenshots with simulator-framed images or a short walkthrough GIF
