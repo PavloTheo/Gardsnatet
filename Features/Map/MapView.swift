@@ -33,8 +33,10 @@ struct MapView: View {
                 ContentUnavailableView("Map", systemImage: "map", description: Text(message))
             case .loaded:
                 ZStack(alignment: .bottom) {
-                    Map(coordinateRegion: $viewModel.region, annotationItems: viewModel.producers) { producer in
-                        MapMarker(coordinate: producer.coordinate)
+                    Map(position: $viewModel.cameraPosition) {
+                        ForEach(viewModel.producers) { producer in
+                            Marker(producer.name, coordinate: producer.coordinate)
+                        }
                     }
 
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -42,7 +44,7 @@ struct MapView: View {
                             ForEach(viewModel.producers) { producer in
                                 Button {
                                     selectedProducer = producer
-                                    viewModel.region.center = producer.coordinate
+                                    viewModel.focusCamera(on: producer)
                                 } label: {
                                     VStack(alignment: .leading, spacing: 6) {
                                         Text(producer.name)

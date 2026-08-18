@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 import SwiftData
 import Testing
 @testable import Gardsnatet
@@ -63,6 +64,34 @@ struct GardsnatetTests {
 
         #expect(viewModel.favoriteProducerCount == 1)
         #expect(favoriteProducerService.favoriteProducerIDs == [validProducerID])
+    }
+
+    @MainActor
+    @Test func mapViewModelUsesCameraPositionForInitialLoadAndProducerFocus() async throws {
+        let viewModel = MapViewModel(producerService: ProducerServiceStub())
+
+        let initialRegion = try #require(viewModel.cameraPosition.region)
+        #expect(initialRegion.center.latitude == 59.3346)
+        #expect(initialRegion.center.longitude == 18.0632)
+        #expect(initialRegion.span.latitudeDelta == 8.0)
+        #expect(initialRegion.span.longitudeDelta == 8.0)
+
+        await viewModel.load()
+
+        let loadedRegion = try #require(viewModel.cameraPosition.region)
+        #expect(loadedRegion.center.latitude == 63.1792)
+        #expect(loadedRegion.center.longitude == 14.6357)
+        #expect(loadedRegion.span.latitudeDelta == 6.0)
+        #expect(loadedRegion.span.longitudeDelta == 6.0)
+
+        let focusedProducer = try #require(viewModel.producers.last)
+        viewModel.focusCamera(on: focusedProducer)
+
+        let focusedRegion = try #require(viewModel.cameraPosition.region)
+        #expect(focusedRegion.center.latitude == 55.9930)
+        #expect(focusedRegion.center.longitude == 13.5958)
+        #expect(focusedRegion.span.latitudeDelta == 6.0)
+        #expect(focusedRegion.span.longitudeDelta == 6.0)
     }
 
     @Test func producerCodableUsesNestedCoordinateObject() throws {
