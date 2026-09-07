@@ -39,7 +39,7 @@ Suggested future demo flow:
 - Buyer flow for local producer discovery
 - Persistent producer favorites backed by SwiftData
 - SwiftData-backed user state with cleanup for orphaned favorite records
-- Map-based browsing concept
+- Map-based producer browsing with camera state, marker selection, and carousel synchronization
 - Order overview and fulfillment status modeling
 - Producer detail pages with story, products, and availability
 - Seller-facing dashboard concept inside the profile flow
@@ -56,6 +56,7 @@ Suggested future demo flow:
 - Protocol-based service layer
 - Bundled local JSON catalog data
 - Swift concurrency-ready service abstractions
+- Modern SwiftUI Map APIs with `MapCameraPosition`
 
 Implemented technical features:
 
@@ -67,12 +68,15 @@ Implemented technical features:
 - Favorite state shared across Discover, Producer Detail, and Profile
 - Stable ID-based persistence for saved producers
 - Orphan favorite cleanup for stale persisted rows
+- Map camera state managed with `MapCameraPosition`
+- Producer map pins rendered with SwiftUI `Marker`
+- Stable producer ID tags for marker selection
+- Synchronized map marker selection and bottom producer carousel
 - Focused unit tests for JSON decoding, service loading, favorite persistence, and valid favorite counting
 
 Planned technical additions:
 
 - Expanded async/await usage
-- Modern iOS 17+ SwiftUI Map APIs
 - Broader unit test coverage for view models and core flows
 
 ## Architecture
@@ -123,7 +127,7 @@ The `Features` layer contains screen-specific SwiftUI views and view models.
   - Discovery feed, filters, producer cards, and favorite controls.
 
 - `Features/Map`
-  - Map browsing and producer selection.
+  - Map-based producer browsing with marker selection, camera focus, and bottom carousel synchronization.
 
 - `Features/Orders`
   - Order list and status overview.
@@ -197,14 +201,13 @@ The app currently loads producer and product catalog data from bundled JSON, whi
 
 Unit tests live in `GardsnatetTests`.
 
-Current test coverage is intentionally light and focused on view model filtering, bundled JSON decoding/loading, and SwiftData favorite persistence cleanup. The test suite is planned to expand alongside seller dashboard features.
+Current test coverage is intentionally light and focused on view model filtering, bundled JSON decoding/loading, map selection behavior, and SwiftData favorite persistence cleanup. The test suite is planned to expand alongside seller dashboard features.
 
 ## Roadmap
 
 ### Near-term
 
 - Expand view model unit tests
-- Update map implementation to newer iOS 17+ `Map` APIs
 - Improve screenshots with simulator-framed images or a short walkthrough GIF
 - Add a dedicated saved producers list or filter view
 
