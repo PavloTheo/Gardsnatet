@@ -19,6 +19,7 @@ final class MapViewModel: ObservableObject {
         )
     )
     @Published private(set) var producers: [Producer] = []
+    @Published var selectedProducerID: Producer.ID?
 
     private let producerService: ProducerServing
 
@@ -41,6 +42,21 @@ final class MapViewModel: ObservableObject {
         } catch {
             loadState = .failed("Could not load map data.")
         }
+    }
+
+    func producer(for id: Producer.ID?) -> Producer? {
+        guard let id else { return nil }
+        return producers.first { $0.id == id }
+    }
+
+    func selectProducer(_ producer: Producer) {
+        selectedProducerID = producer.id
+        focusCamera(on: producer)
+    }
+
+    func focusCameraOnSelectedProducer() {
+        guard let producer = producer(for: selectedProducerID) else { return }
+        focusCamera(on: producer)
     }
 
     func focusCamera(on producer: Producer) {

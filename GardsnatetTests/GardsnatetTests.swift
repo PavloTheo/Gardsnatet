@@ -85,13 +85,23 @@ struct GardsnatetTests {
         #expect(loadedRegion.span.longitudeDelta == 6.0)
 
         let focusedProducer = try #require(viewModel.producers.last)
-        viewModel.focusCamera(on: focusedProducer)
+        viewModel.selectProducer(focusedProducer)
+
+        #expect(viewModel.selectedProducerID == focusedProducer.id)
+        #expect(viewModel.producer(for: focusedProducer.id) == focusedProducer)
 
         let focusedRegion = try #require(viewModel.cameraPosition.region)
         #expect(focusedRegion.center.latitude == 55.9930)
         #expect(focusedRegion.center.longitude == 13.5958)
         #expect(focusedRegion.span.latitudeDelta == 6.0)
         #expect(focusedRegion.span.longitudeDelta == 6.0)
+
+        viewModel.selectedProducerID = viewModel.producers.first?.id
+        viewModel.focusCameraOnSelectedProducer()
+
+        let selectedRegion = try #require(viewModel.cameraPosition.region)
+        #expect(selectedRegion.center.latitude == 63.1792)
+        #expect(selectedRegion.center.longitude == 14.6357)
     }
 
     @Test func producerCodableUsesNestedCoordinateObject() throws {
