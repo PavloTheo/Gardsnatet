@@ -29,7 +29,7 @@ struct ProducerDetailView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 32)
         }
-        .background(Color(.systemGroupedBackground))
+        .appScreenBackground()
         .navigationTitle(viewModel.producer.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -37,6 +37,7 @@ struct ProducerDetailView: View {
                 viewModel.toggleFavorite()
             } label: {
                 Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                    .foregroundStyle(viewModel.isFavorite ? Color.accentBrand : Color.primaryBrand)
             }
             .accessibilityLabel(viewModel.isFavorite ? "Remove from favorites" : "Add to favorites")
         }
@@ -48,11 +49,12 @@ struct ProducerDetailView: View {
     private var heroSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text(viewModel.producer.region.uppercased())
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .appSectionLabel()
+                .foregroundStyle(Color.cardBackground.opacity(0.74))
 
             Text(viewModel.producer.story)
                 .font(.title3.weight(.semibold))
+                .foregroundStyle(Color.cardBackground)
 
             HStack(spacing: 12) {
                 producerMetric(title: "Range", value: viewModel.priceRangeText)
@@ -62,17 +64,7 @@ struct ProducerDetailView: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.94, green: 0.80, blue: 0.62),
-                    Color(red: 0.76, green: 0.89, blue: 0.74)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 28, style: .continuous)
-        )
+        .appHeroPanel()
         .padding(.top, 12)
     }
 
@@ -80,10 +72,11 @@ struct ProducerDetailView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.cardBackground.opacity(0.74))
 
             Text(value)
                 .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.cardBackground)
                 .lineLimit(2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -93,17 +86,20 @@ struct ProducerDetailView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .font(.headline)
+                .foregroundStyle(Color.primaryText)
 
             ForEach(products) { product in
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(product.name)
                             .font(.headline)
+                            .foregroundStyle(Color.primaryText)
 
                         Spacer()
 
                         Text(product.formattedPrice)
                             .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Color.primaryBrand)
                     }
 
                     HStack(spacing: 8) {
@@ -114,7 +110,7 @@ struct ProducerDetailView: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.background, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .appCard()
             }
         }
     }
@@ -122,9 +118,7 @@ struct ProducerDetailView: View {
     private func detailBadge(_ label: String) -> some View {
         Text(label)
             .font(.caption.weight(.medium))
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(Color(.secondarySystemBackground), in: Capsule())
+            .appBadge()
     }
 }
 

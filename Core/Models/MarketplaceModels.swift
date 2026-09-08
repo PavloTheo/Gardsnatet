@@ -172,7 +172,7 @@ struct SellerInventoryItem: Identifiable, Hashable {
     }
 
     var statusColor: Color {
-        remainingBottles <= 12 ? .orange : .green
+        remainingBottles <= 12 ? .accentBrand : .primaryBrand
     }
 }
 

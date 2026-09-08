@@ -42,7 +42,7 @@ struct DiscoverView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 32)
                 }
-                .background(Color(.systemGroupedBackground))
+                .appScreenBackground()
             }
         }
         .navigationTitle("Discover")
@@ -58,32 +58,20 @@ struct DiscoverView: View {
     private var headerCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Swedish craft drinks, directly from the source.")
-                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                .font(.largeTitle.weight(.bold))
+                .foregroundStyle(Color.cardBackground)
 
             Text("Browse vineyard, brewery, cider house, and meadery profiles built for local pickup and small-batch discovery.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.cardBackground.opacity(0.78))
 
             Text("\(viewModel.producers.count) producers in the demo network")
                 .font(.footnote.weight(.semibold))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(.ultraThinMaterial, in: Capsule())
+                .appInverseBadge()
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.96, green: 0.83, blue: 0.72),
-                    Color(red: 0.82, green: 0.91, blue: 0.79),
-                    Color(red: 0.76, green: 0.86, blue: 0.94)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 32, style: .continuous)
-        )
+        .appHeroPanel()
         .padding(.top, 12)
     }
 
@@ -91,6 +79,7 @@ struct DiscoverView: View {
         VStack(alignment: .leading, spacing: 16) {
             TextField("Search by farm or producer", text: searchTextBinding)
                 .textFieldStyle(.roundedBorder)
+                .tint(Color.primaryBrand)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
@@ -108,6 +97,7 @@ struct DiscoverView: View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Featured producers")
                 .font(.headline)
+                .foregroundStyle(Color.primaryText)
 
             if viewModel.filteredProducers.isEmpty {
                 ContentUnavailableView(
@@ -130,13 +120,9 @@ struct DiscoverView: View {
             viewModel.selectedCategory = category
         } label: {
             Text(title)
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .background(isSelected ? Color.accentColor : Color(.secondarySystemBackground), in: Capsule())
-                .foregroundStyle(isSelected ? Color.white : Color.primary)
+                .foregroundStyle(isSelected ? Color.cardBackground : Color.primaryText)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(AppChipButtonStyle(isSelected: isSelected))
     }
 
     private func producerRow(for producer: Producer) -> some View {
@@ -167,9 +153,13 @@ struct DiscoverView: View {
         } label: {
             Image(systemName: isFavorite ? "heart.fill" : "heart")
                 .font(.headline)
-                .foregroundStyle(isFavorite ? Color.accentColor : Color.secondary)
+                .foregroundStyle(isFavorite ? Color.accentBrand : Color.secondaryText)
                 .frame(width: 36, height: 36)
-                .background(.background, in: Circle())
+                .background(Color.cardBackground, in: Circle())
+                .overlay(
+                    Circle()
+                        .stroke(Color.subtleBorder.opacity(0.45), lineWidth: 1)
+                )
         }
         .buttonStyle(.plain)
         .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
@@ -181,25 +171,24 @@ struct DiscoverView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(producer.name)
                         .font(.title3.weight(.semibold))
+                        .foregroundStyle(Color.primaryText)
 
                     Text(producer.subtitle)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 Spacer()
 
                 Text(producer.primaryCategoryTitle)
                     .font(.caption.weight(.semibold))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(.secondarySystemBackground), in: Capsule())
+                    .appBadge()
                     .padding(.trailing, 44)
             }
 
             Text(producer.story)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .lineLimit(3)
 
             HStack(spacing: 10) {
@@ -209,16 +198,17 @@ struct DiscoverView: View {
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.background, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .appCard()
     }
 
     private func miniMetric(_ value: String, label: String) -> some View {
         HStack(spacing: 4) {
             Text(value)
                 .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.primaryText)
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
     }
 }

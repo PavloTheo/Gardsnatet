@@ -44,7 +44,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 32)
                 }
-                .background(Color(.systemGroupedBackground))
+                .appScreenBackground()
             }
         }
         .navigationTitle("Profile")
@@ -62,11 +62,12 @@ struct ProfileView: View {
     private func accountCard(profile: UserProfile) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(profile.name)
-                .font(.system(.title, design: .rounded, weight: .bold))
+                .font(.title.weight(.bold))
+                .foregroundStyle(Color.cardBackground)
 
             Text("\(profile.region) • Demo marketplace account")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.cardBackground.opacity(0.78))
 
             HStack(spacing: 12) {
                 profileBadge(title: "Default role", value: profile.role.rawValue.capitalized)
@@ -75,17 +76,7 @@ struct ProfileView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.90, green: 0.94, blue: 0.80),
-                    Color(red: 0.78, green: 0.88, blue: 0.95)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 28, style: .continuous)
-        )
+        .appHeroPanel()
         .padding(.top, 12)
     }
 
@@ -93,6 +84,7 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Demo role")
                 .font(.headline)
+                .foregroundStyle(Color.primaryText)
 
             Picker("Demo role", selection: $viewModel.presentedRole) {
                 ForEach(UserRole.allCases) { role in
@@ -100,10 +92,11 @@ struct ProfileView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .tint(Color.primaryBrand)
 
             Text("Use this switch to present both sides of the marketplace in a single prototype build.")
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
     }
 
@@ -111,10 +104,11 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Buyer snapshot")
                 .font(.headline)
+                .foregroundStyle(Color.primaryText)
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("This side of the prototype focuses on discovery, filtering, and reviewing producers before pickup.")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
 
                 HStack(spacing: 12) {
                     profileBadge(title: "Saved producers", value: "\(viewModel.favoriteProducerCount)")
@@ -122,7 +116,7 @@ struct ProfileView: View {
                 }
             }
             .padding(20)
-            .background(.background, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .appCard()
         }
     }
 
@@ -130,14 +124,19 @@ struct ProfileView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text(value)
                 .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.primaryText)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(14)
-        .background(Color.white.opacity(0.45), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .background(Color.cardBackground.opacity(0.68), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(Color.subtleBorder.opacity(0.35), lineWidth: 1)
+        )
     }
 }
 
