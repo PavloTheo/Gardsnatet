@@ -29,17 +29,24 @@ struct OrdersView: View {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(order.producerName)
                                 .font(.headline)
+                                .foregroundStyle(Color.primaryText)
 
                             Text(order.itemNames.joined(separator: ", "))
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
 
                             Text("\(order.status.title) • \(order.totalSEK) SEK")
                                 .font(.footnote)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
-                        .padding(.vertical, 4)
+                        .padding(14)
+                        .appCard()
+                        .listRowBackground(Color.appBackground)
+                        .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .appScreenBackground()
                 }
             }
         }

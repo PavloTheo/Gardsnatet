@@ -66,6 +66,7 @@ struct ContentView: View {
                 Label("Profile", systemImage: "person.crop.circle")
             }
         }
+        .tint(Color.primaryBrand)
     }
 }
 

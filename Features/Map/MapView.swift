@@ -36,6 +36,7 @@ struct MapView: View {
                     Map(position: $viewModel.cameraPosition, selection: $viewModel.selectedProducerID) {
                         ForEach(viewModel.producers) { producer in
                             Marker(producer.name, coordinate: producer.coordinate)
+                                .tint(Color.primaryBrand)
                                 .tag(producer.id)
                         }
                     }
@@ -44,6 +45,8 @@ struct MapView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 14) {
                                 ForEach(viewModel.producers) { producer in
+                                    let isSelected = viewModel.selectedProducerID == producer.id
+
                                     Button {
                                         selectedProducer = producer
                                         viewModel.selectProducer(producer)
@@ -51,18 +54,23 @@ struct MapView: View {
                                         VStack(alignment: .leading, spacing: 6) {
                                             Text(producer.name)
                                                 .font(.headline)
+                                                .foregroundStyle(Color.primaryText)
 
                                             Text(producer.region)
                                                 .font(.subheadline)
-                                                .foregroundStyle(.secondary)
+                                                .foregroundStyle(Color.secondaryText)
 
                                             Text(producer.primaryCategoryTitle)
                                                 .font(.caption.weight(.semibold))
-                                                .foregroundStyle(.secondary)
+                                                .foregroundStyle(isSelected ? Color.accentBrand : Color.secondaryText)
                                         }
                                         .padding(16)
                                         .frame(width: 220, alignment: .leading)
-                                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                        .background(Color.cardBackground, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                .stroke(isSelected ? Color.primaryBrand : Color.subtleBorder.opacity(0.45), lineWidth: 1)
+                                        )
                                     }
                                     .buttonStyle(.plain)
                                     .id(producer.id)

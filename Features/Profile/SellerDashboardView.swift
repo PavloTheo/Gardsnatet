@@ -14,29 +14,20 @@ struct SellerDashboardView: View {
         VStack(alignment: .leading, spacing: 20) {
             VStack(alignment: .leading, spacing: 12) {
                 Text(snapshot.shopName.uppercased())
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .appSectionLabel()
+                    .foregroundStyle(Color.cardBackground.opacity(0.74))
 
                 Text("Seller dashboard built for local pickup, limited stock, and farm-scale production.")
                     .font(.title3.weight(.semibold))
+                    .foregroundStyle(Color.cardBackground)
 
                 Text(snapshot.fulfillmentNote)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.cardBackground.opacity(0.78))
             }
             .padding(20)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                LinearGradient(
-                    colors: [
-                        Color(red: 0.84, green: 0.91, blue: 0.79),
-                        Color(red: 0.97, green: 0.87, blue: 0.72)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                in: RoundedRectangle(cornerRadius: 28, style: .continuous)
-            )
+            .appHeroPanel()
 
             HStack(spacing: 12) {
                 sellerMetric(value: "\(snapshot.openOrders)", label: "open orders")
@@ -47,16 +38,18 @@ struct SellerDashboardView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Inventory watch")
                     .font(.headline)
+                    .foregroundStyle(Color.primaryText)
 
                 ForEach(snapshot.inventoryItems) { item in
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(item.name)
                                 .font(.headline)
+                                .foregroundStyle(Color.primaryText)
 
                             Text("\(item.remainingBottles) bottles left • \(item.formattedPrice)")
                                 .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
 
                         Spacer()
@@ -69,7 +62,7 @@ struct SellerDashboardView: View {
                             .foregroundStyle(item.statusColor)
                     }
                     .padding(16)
-                    .background(.background, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .appCard()
                 }
             }
         }
@@ -79,19 +72,20 @@ struct SellerDashboardView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(value)
                 .font(.headline)
+                .foregroundStyle(Color.primaryText)
 
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .appCard()
     }
 }
 
 #Preview {
     SellerDashboardView(snapshot: .preview)
         .padding()
-        .background(Color(.systemGroupedBackground))
+        .appScreenBackground()
 }
