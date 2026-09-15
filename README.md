@@ -6,28 +6,21 @@ The app explores a two-sided marketplace where buyers can discover local produce
 
 > This is a portfolio prototype, not a production marketplace or live alcohol sales platform. The domain is used to explore local discovery, regulated product presentation, marketplace UX, and SwiftUI architecture.
 
+## Demo
+
+<p align="center">
+  <img src="Docs/Demo/gardsnatet-demo.gif" alt="Gardsnatet app demo" width="320">
+</p>
+
 ## Portfolio Summary
 
 Gardsnatet was built as a product-oriented SwiftUI prototype to demonstrate how a real marketplace concept could be structured from an iOS development perspective. The project focuses on clean feature separation, local JSON-backed catalog loading, buyer and seller journeys, and a domain model that supports local discovery, producer storytelling, order overview, and seller inventory concepts. The goal is not to ship a complete commercial app, but to present a realistic, expandable foundation for a modern SwiftUI application.
 
 ## Screens
 
-| Discover | Profile / Seller Mode | Producer Detail |
+| Discover | Map | Producer Detail |
 | --- | --- | --- |
-| ![Discover screen](Docs/Screenshots/discover.png) | ![Profile screen](Docs/Screenshots/profile.png) | ![Producer detail screen](Docs/Screenshots/producer-detail.png) |
-
-## Demo
-
-A short simulator walkthrough GIF/video is planned.
-
-Suggested future demo flow:
-
-1. Browse producers on the Discover screen.
-2. Open a producer detail page.
-3. View available products and pickup-oriented information.
-4. Switch to the Profile tab.
-5. Open the seller dashboard concept.
-6. Review inventory and order-related seller information.
+| <img src="Docs/Screenshots/discover.png" alt="Discover screen" width="260"> | <img src="Docs/Screenshots/map.png" alt="Map screen" width="260"> | <img src="Docs/Screenshots/producer-detail.png" alt="Producer detail screen" width="260"> |
 
 ## What It Demonstrates
 
@@ -208,7 +201,6 @@ Current test coverage is intentionally light and focused on view model filtering
 ### Near-term
 
 - Expand view model unit tests
-- Improve screenshots with simulator-framed images or a short walkthrough GIF
 - Add a dedicated saved producers list or filter view
 
 ### Medium-term
